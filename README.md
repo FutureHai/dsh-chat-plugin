@@ -13,11 +13,15 @@ This project is community maintained and is not an official DeepSeek release.
 
 ## Install
 
-In Desktop's plugin manager, uninstall the previous `@deepseek-ai/dsh-client-ui-deepseek-chat` local plugin if it is installed. Install **this repository's root directory**, which contains `package.json` and `cordis.patch.yml`; then reopen Desktop. The sidebar will contain **DeepSeek Chat**.
+Fully quit DeepSeek Harness Desktop, then install the plugin from GitHub:
 
-After this repository is published on GitHub, fully quit Desktop before the equivalent CLI install: `dsh plugin --profile desktop add github:<owner>/dsh-chat-plugin`. Pin a commit for a reproducible installation. No install-time build script is required because `lib/index.js` and `lib/client.js` are committed.
+```sh
+dsh plugin --profile desktop add github:FutureHai/dsh-chat-plugin
+```
 
-To install a local checkout with the CLI: `dsh plugin --profile desktop add /absolute/path/to/dsh-chat-plugin`.
+Reopen Desktop and select **DeepSeek Chat** in the sidebar. For a local checkout, select the repository root (containing `package.json` and `cordis.patch.yml`) in Desktop's plugin manager, or run `dsh plugin --profile desktop add /absolute/path/to/dsh-chat-plugin`. If an earlier local build of this plugin is installed, remove it before installing from GitHub.
+
+The committed `lib/index.js` and `lib/client.js` make installation possible without an install-time build. Pin a Git commit when you need a reproducible installation.
 
 ## Behavior and limits
 

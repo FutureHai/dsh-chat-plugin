@@ -13,11 +13,15 @@
 
 ## 安装
 
-如果已经安装旧的本地插件 `@deepseek-ai/dsh-client-ui-deepseek-chat`，先在 Desktop 插件管理器中卸载。然后安装**本仓库根目录**，即包含 `package.json` 和 `cordis.patch.yml` 的目录；重新打开 Desktop。左侧会出现 **DeepSeek Chat**。
+完全退出 DeepSeek Harness Desktop，然后从 GitHub 安装插件：
 
-将仓库发布到 GitHub 后，也可以在完全退出 Desktop 后运行 `dsh plugin --profile desktop add github:<owner>/dsh-chat-plugin`。建议固定提交版本。由于 `lib/index.js` 和 `lib/client.js` 已提交，安装时无需运行构建脚本。
+```sh
+dsh plugin --profile desktop add github:FutureHai/dsh-chat-plugin
+```
 
-使用 CLI 安装本地源码目录：`dsh plugin --profile desktop add /absolute/path/to/dsh-chat-plugin`。
+重新打开 Desktop，在左侧选择 **DeepSeek Chat**。如需安装本地源码目录，可在 Desktop 插件管理器中选择包含 `package.json` 和 `cordis.patch.yml` 的仓库根目录，或运行 `dsh plugin --profile desktop add /absolute/path/to/dsh-chat-plugin`。如果已安装该插件的早期本地构建版本，请先卸载，再从 GitHub 安装。
+
+仓库已提交 `lib/index.js` 和 `lib/client.js`，安装时无需构建。需要可复现安装时，建议固定 Git 提交版本。
 
 ## 行为与限制
 

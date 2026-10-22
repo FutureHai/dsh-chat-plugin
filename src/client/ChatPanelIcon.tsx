@@ -3,8 +3,8 @@ import type { ReactNode } from 'react'
 import type { PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type {} from '@deepseek-ai/dsh-client-ui-sidebar/client'
 
-/** @param props - sidebar icon size. @returns a glyph distinct from New Session. */
-export function ChatPanelIcon({ size }: PropsRuntime<'sidebar.panellist'>): ReactNode {
+/** @param props - requested icon size. @returns the shared Chat glyph. */
+export function ChatGlyph({ size }: { readonly size: number }): ReactNode {
   return (
     <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true">
       <path
@@ -14,4 +14,9 @@ export function ChatPanelIcon({ size }: PropsRuntime<'sidebar.panellist'>): Reac
       <path d="M4.6 6.4h6.8M4.6 9h3.6" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
     </svg>
   )
+}
+
+/** @param props - sidebar icon size. @returns a glyph distinct from New Session. */
+export function ChatPanelIcon({ size }: PropsRuntime<'sidebar.panellist'>): ReactNode {
+  return <ChatGlyph size={size} />
 }

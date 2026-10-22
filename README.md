@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md) | English
 
-An independent plugin that opens the official [DeepSeek Chat](https://chat.deepseek.com/) website in the main panel of DeepSeek Harness Desktop. The sidebar entry switches between Chat and Agent without reloading the Chat page.
+An independent plugin that opens the official [DeepSeek Chat](https://chat.deepseek.com/) website in the main panel of DeepSeek Harness Desktop. Open Chat from the left sidebar or the icon in the Agent Session header's right-side utilities. Switching between Chat and Agent does not reload the Chat page. The header icon appears when a nonblank Agent Session is open, including while the left sidebar is collapsed.
 
 This project is community maintained and is not an official DeepSeek release.
 

@@ -55,7 +55,7 @@ it('registers no UI without the official Desktop Browser bridge', async () => {
   }
 })
 
-it('registers a retained guest, main panel, and sidebar entry', async () => {
+it('registers a retained guest, main panel, and both navigation entries', async () => {
   const browser = { acquire: vi.fn(), release: vi.fn(), onOpenRequested: vi.fn() }
   vi.stubGlobal('dshDesktop', { protocolVersion: 1, browser })
   const harness = await boot()
@@ -63,6 +63,7 @@ it('registers a retained guest, main panel, and sidebar entry', async () => {
     ['shell.overlay', 'deepseek-chat-guest'],
     ['main', 'deepseek-chat'],
     ['sidebar.panellist', 'deepseek-chat'],
+    ['conversation.session.header.utilities', 'deepseek-chat'],
   ])
   const overlay = (harness.entries[0]?.options.inject as () => { bridge: unknown; session: unknown })()
   const panel = (harness.entries[1]?.options.inject as () => { session: unknown; back: () => void })()
@@ -71,6 +72,10 @@ it('registers a retained guest, main panel, and sidebar entry', async () => {
   expect(panel.session).toBe(overlay.session)
   panel.back()
   expect(harness.selectPanel).toHaveBeenCalledExactlyOnceWith(null)
+  const header = (harness.entries[3]?.options.inject as () => { open: () => void })()
+  expect(harness.entries[3]?.options.order).toBe(5)
+  header.open()
+  expect(harness.selectPanel).toHaveBeenLastCalledWith('deepseek-chat')
   await harness.fiber.dispose()
   expect(harness.entries).toEqual([])
   expect(harness.dictionaries.size).toBe(0)

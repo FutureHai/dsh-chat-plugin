@@ -2,7 +2,7 @@
 
 简体中文 | [English](README.md)
 
-这是一个独立插件，在 DeepSeek Harness Desktop 的主面板打开[官方 DeepSeek Chat 网站](https://chat.deepseek.com/)。左侧入口可在 Chat 与 Agent 间切换，切换时不会重载 Chat 网页。
+这是一个独立插件，在 DeepSeek Harness Desktop 的主面板打开[官方 DeepSeek Chat 网站](https://chat.deepseek.com/)。可以从左侧菜单或 Agent 会话标题栏右侧的图标进入 Chat；在 Chat 与 Agent 间切换不会重载 Chat 网页。左侧菜单折叠后，该顶部图标仍可使用；空白会话页不显示此图标。
 
 本项目由社区维护，不是 DeepSeek 官方发布的插件。
 

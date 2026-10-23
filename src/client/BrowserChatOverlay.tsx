@@ -37,10 +37,7 @@ export function BrowserChatOverlay({ bridge, session, getPreferredLanguage, t }:
   const getPreferredLanguageRef = useRef(getPreferredLanguage)
   getPreferredLanguageRef.current = getPreferredLanguage
   const [seat, setSeat] = useState<SeatBounds | undefined>()
-  const [opened, setOpened] = useState(false)
   const { retry, phase } = useSyncExternalStore(session.subscribe, session.getSnapshot)
-
-  useEffect(() => { if (seat !== undefined) setOpened(true) }, [seat])
 
   useEffect(() => {
     let frame = 0
@@ -98,7 +95,8 @@ export function BrowserChatOverlay({ bridge, session, getPreferredLanguage, t }:
   }, [])
 
   useEffect(() => {
-    if (!opened || host.current === null) return
+    // Preload while the Agent panel is active so the first Chat open can reuse a ready guest.
+    if (host.current === null) return
     let disposed = false
     let failed = false
     let lease: string | undefined
@@ -267,7 +265,7 @@ export function BrowserChatOverlay({ bridge, session, getPreferredLanguage, t }:
       webview?.remove()
       if (lease !== undefined) void bridge.release(lease).catch(() => {})
     }
-  }, [bridge, retry, opened, session])
+  }, [bridge, retry, session])
 
   useEffect(() => { host.current?.querySelector('webview')?.setAttribute('aria-label', title) }, [title])
 

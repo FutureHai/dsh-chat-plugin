@@ -26,6 +26,7 @@ The committed `lib/index.js` and `lib/client.js` make installation possible with
 ## Behavior and limits
 
 - The embedded page is the official Chat website. SMS login happens on that page; the plugin does not handle passwords, codes, cookies, or chat text.
+- The plugin starts loading the Chat website in a hidden view when Desktop starts, so opening Chat later can reuse the ready page. A slow network can still delay an immediate first open.
 - The same operating-system user's Harness workspaces share the Chat browser partition while the Desktop process is running. The retained view preserves login and unsent drafts when switching Chat ↔ Agent.
 - If loading stalls, the panel offers Retry and reports a timeout after 30 seconds. Reload refreshes the current page; Return to Chat restores the previous Chat address after navigation to another website. The page stays visible with a small loading status during either action.
 - The official Desktop Browser bridge uses an in-memory partition. After **all** Desktop processes exit, website storage is cleared and Chat requires a new login. **More actions → Local login data…** explains that exit procedure; it does not revoke server-side sessions.

@@ -9,7 +9,7 @@ import panelCss from '../src/client/ChatPanel.module.css'
 
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); vi.restoreAllMocks() })
 
-it('shares a fixed process-local account and retains the webview across Agent navigation', async () => {
+it('preloads before Chat is selected and retains the webview across Agent navigation', async () => {
   vi.stubGlobal('ResizeObserver', class { observe(): void {} unobserve(): void {} disconnect(): void {} })
   vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => setTimeout(() => { callback(0) }, 0))
   vi.stubGlobal('cancelAnimationFrame', (id: number) => { clearTimeout(id) })
@@ -22,7 +22,7 @@ it('shares a fixed process-local account and retains the webview across Agent na
   const session = new BrowserChatSession()
   const props = { bridge, session, getPreferredLanguage: () => 'zh_CN',
     t: (key: keyof typeof zh) => zh[key] } as BrowserChatOverlayProps
-  const view = render(<div><div><div data-deepseek-chat-seat /></div><BrowserChatOverlay {...props} /></div>)
+  const view = render(<div><div><div /></div><BrowserChatOverlay {...props} /></div>)
   await waitFor(() => { expect(view.container.querySelector('webview')).not.toBeNull() })
   expect(bridge.acquire).toHaveBeenCalledExactlyOnceWith('deepseek-chat')
   const guest = view.container.querySelector('webview')!
@@ -36,6 +36,9 @@ it('shares a fixed process-local account and retains the webview across Agent na
   guest.dispatchEvent(new Event('did-stop-loading'))
   await waitFor(() => { expect(session.getSnapshot().phase).toBe('ready') })
   expect(executeJavaScript).toHaveBeenCalledOnce()
+  const hostBeforeOpen = view.container.querySelector('[data-deepseek-chat-guest]') as HTMLElement
+  expect(hostBeforeOpen.style.visibility).toBe('hidden')
+  view.rerender(<div><div><div data-deepseek-chat-seat /></div><BrowserChatOverlay {...props} /></div>)
   const seat = view.container.querySelector('[data-deepseek-chat-seat]')!
   Object.defineProperty(seat, 'getBoundingClientRect', {
     value: () => ({ left: 8, top: 72, width: 540, height: 410 }),

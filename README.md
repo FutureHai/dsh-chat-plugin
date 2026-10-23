@@ -27,8 +27,9 @@ The committed `lib/index.js` and `lib/client.js` make installation possible with
 
 - The embedded page is the official Chat website. SMS login happens on that page; the plugin does not handle passwords, codes, cookies, or chat text.
 - The same operating-system user's Harness workspaces share the Chat browser partition while the Desktop process is running. The retained view preserves login and unsent drafts when switching Chat ↔ Agent.
-- The official Desktop Browser bridge uses an in-memory partition. After **all** Desktop processes exit, website storage is cleared and Chat requires a new login. **Clear local login data** explains that exit procedure; it does not revoke server-side sessions.
-- When a new Chat browser partition first opens, the plugin initializes the website language from the active Harness language (which follows the OS when no preference was selected). An explicit language choice inside Chat lasts until Desktop fully exits. Changing the Harness language while Chat is open does not reload Chat or discard a draft.
+- If loading stalls, the panel offers Retry and reports a timeout after 30 seconds. Reload refreshes the current page; Return to Chat restores the previous Chat address after navigation to another website. The page stays visible with a small loading status during either action.
+- The official Desktop Browser bridge uses an in-memory partition. After **all** Desktop processes exit, website storage is cleared and Chat requires a new login. **More actions → Local login data…** explains that exit procedure; it does not revoke server-side sessions.
+- When a new Chat browser partition first opens, the plugin initializes the website language from the active Harness language (which follows the OS when no preference was selected). A specific language selected inside Chat lasts until Desktop fully exits. Selecting **System** is remapped to the Harness language when a new Chat guest opens. Changing the Harness language while Chat is open does not reload Chat or discard a draft.
 - You can still change the website language under **Settings → General → Language**. The plugin reads and writes only the website's language preference; if DeepSeek changes that internal storage format, this initialization may need an update.
 - Other website login methods and update transitions have not been verified.
 

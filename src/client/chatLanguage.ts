@@ -14,12 +14,13 @@ export function initialLanguageScript(language: ChatLanguage): string {
       const raw = localStorage.getItem(key);
       let stored;
       if (raw !== null) {
-        stored = JSON.parse(raw);
-        const current = stored && typeof stored === 'object' ? stored.value : stored;
-        if (current !== 'system') return false;
+        try { stored = JSON.parse(raw); } catch { stored = undefined; }
       }
-      const next = stored && typeof stored === 'object' && !Array.isArray(stored)
-        ? { ...stored, value: ${JSON.stringify(language)} }
+      const object = stored !== null && typeof stored === 'object' && !Array.isArray(stored);
+      const current = object ? stored.value : stored;
+      if (typeof current === 'string' && current.trim() !== '' && current !== 'system') return false;
+      const next = object
+        ? { ...stored, __version: typeof stored.__version === 'string' ? stored.__version : '0', value: ${JSON.stringify(language)} }
         : { value: ${JSON.stringify(language)}, __version: '0' };
       localStorage.setItem(key, JSON.stringify(next));
       const pageLanguage = document.documentElement.lang.toLowerCase();

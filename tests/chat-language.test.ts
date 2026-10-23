@@ -47,3 +47,19 @@ it('replaces the website system default without reloading an already matching pa
   expect(result.changed).toBe(false)
   expect(JSON.parse(result.preference!)).toEqual({ value: 'zh_CN', __version: '0' })
 })
+
+it.each(['null', '{}', '{"value":null}', '[]', 'garbage'])(
+  'initializes an invalid or missing website preference: %s', initial => {
+    const result = runLanguageScript('zh_CN', initial, 'en')
+    expect(result.changed).toBe(true)
+    expect(JSON.parse(result.preference!)).toMatchObject({ value: 'zh_CN', __version: '0' })
+    expect(result.writes).toEqual([key])
+  },
+)
+
+it('preserves other preference fields and supplies a missing version for system mode', () => {
+  const previous = JSON.stringify({ value: 'system', extra: 'keep' })
+  const result = runLanguageScript('en_US', previous, 'zh-CN')
+  expect(result.changed).toBe(true)
+  expect(JSON.parse(result.preference!)).toEqual({ value: 'en_US', extra: 'keep', __version: '0' })
+})

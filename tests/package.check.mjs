@@ -26,3 +26,18 @@ test('the built client registers under the new package name', () => {
   assert.equal(typeof client.apply, 'function')
   assert.deepEqual([...client.inject], ['slots', 'locale', 'layout'])
 })
+
+test('the installable package exports localized display metadata and an icon', () => {
+  assert.equal(manifest.icon, './icon.svg')
+  assert.equal(manifest.exports['./icon'], './icon.svg')
+  assert.match(readFileSync(new URL('icon.svg', root), 'utf8'), /<svg\b/u)
+  assert.ok(manifest.files.includes('icon.svg'))
+  for (const language of ['en', 'zh']) {
+    const resource = `locale/${language}.json`
+    assert.equal(manifest.exports[`./${resource}`], `./${resource}`)
+    assert.ok(manifest.files.includes(resource))
+    const { meta } = JSON.parse(readFileSync(new URL(resource, root), 'utf8'))
+    assert.equal(meta.title, 'DeepSeek Chat')
+    assert.ok(meta.description.length > 0)
+  }
+})
